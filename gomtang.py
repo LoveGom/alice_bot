@@ -1,0 +1,70 @@
+import discord
+from discord.ext import commands
+import psutil
+
+bot = commands.Bot(command_prefix='gt.')
+
+@bot.event
+async def on_ready():
+    print("성공적으로 동작중이에요!")
+    await bot.change_presence(activity = discord.Streaming(name = "gt.도움", url= "https://www.twitch.tv/bookguk_gom"))
+
+@bot.command()
+@commands.is_owner()
+async def fo(ctx):
+    await ctx.send(':hand_splayed:')
+    await ctx.bot.logout()
+    return
+@bot.command()
+async def ping(ctx):
+    await ctx.send(f'Pong! {round(bot.latency * 1000)}ms')
+@bot.command()
+async def lord(ctx):
+    await ctx.send('https://r6skin.com/wp-content/uploads/2019/02/r6s-bundle_tachankamedieval_960x540_323504.jpg')
+    await ctx.send('https://media.altchar.com/prod/images/940_530/gm-fe37e26f-f3bd-42b8-9be7-2b2c3ee7e692-lordtachankarework.jpeg')
+    await ctx.send('https://cdn.player.one/sites/player.one/files/styles/lg/public/2020/03/13/rainbowsixsiegetachanka-vg247.jpg')
+@bot.command()
+async def leave(ctx):
+    await ctx.voice_client.disconnect()
+@bot.command()
+async def join(ctx):
+    channel = ctx.author.voice.channel
+    await channel.connect()
+@bot.command()
+async def play(ctx):
+    guild = ctx.guild
+    voice_client: discord.VoiceClient = discord.utils.get(bot.voice_clients, guild=guild)
+    audio_source = discord.FFmpegPCMAudio('mp3.mp3')
+    if not voice_client.is_playing():
+        voice_client.play(audio_source, after=None)
+@bot.command()
+async def play_marigold(ctx):
+    guild = ctx.guild
+    voice_client: discord.VoiceClient = discord.utils.get(bot.voice_clients, guild=guild)
+    audio_source = discord.FFmpegPCMAudio('marigold.mp3')
+    if not voice_client.is_playing():
+        voice_client.play(audio_source, after=None)
+@bot.command()
+async def play_magnolia(ctx):
+    guild = ctx.guild
+    voice_client: discord.VoiceClient = discord.utils.get(bot.voice_clients, guild=guild)
+    audio_source = discord.FFmpegPCMAudio('magnolia.mp3')
+    if not voice_client.is_playing():
+        voice_client.play(audio_source, after=None)
+@bot.command()
+async def debug(ctx):
+    ctx.send(psutil.cpu_percent())
+@bot.command()
+async def 도움(ctx):
+        embedVar = discord.Embed(title="도움말", description="명령어는 아래에서 확인하세요!", color=0x00ff00)
+        embedVar.add_field(name="gt.ping", value="네트워크 지연시간을 표기합니다.", inline=False)
+        embedVar.add_field(name="gt.join", value="음성 채팅으로 연결합니다.", inline=False)
+        embedVar.add_field(name="gt.play", value="소비에트 연방 찬가를 고음질로 재생합니다.", inline=False)
+        embedVar.add_field(name="gt.play_marigold", value="Margold - M2U 를 고음질로 재생합니다.", inline=False)
+        embedVar.add_field(name="gt.play_magnolia", value="Magnolia - M2U 를 고음질로 재생합니다.", inline=False)
+        embedVar.add_field(name="gt.leave", value="음성 채팅으로 부터 연결을 끊습니다.", inline=False)
+
+        await ctx.send(embed=embedVar)
+
+
+bot.run('ODA0NjEwNzczMjYyNjYzNzMw.YBO2LQ.PJvHkP_Aw2j8ZBnqS26a_wdOgj0')
