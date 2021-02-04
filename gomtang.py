@@ -1,16 +1,21 @@
+import asyncio
 import discord
 from discord.ext import commands
-import psutil
+
 
 bot = commands.Bot(command_prefix='gt.')
 
 @bot.event
 async def on_ready():
     print("성공적으로 동작중이에요!") #봇이 성공적으로 작동하고 있다는 메시지를 콘솔에 출력
-    await bot.change_presence(activity = discord.Streaming(name = "gt.도움", url= "https://www.twitch.tv/bookguk_gom")) #디스코드 rich presence
+    while(True):
+        await bot.change_presence(activity = discord.Streaming(name = "gt.도움", url= "https://www.twitch.tv/bookguk_gom")) #디스코드 rich presenc
+        await asyncio.sleep(5)
+        await bot.change_presence(activity = discord.Streaming(name = "보연이는 왈라비임", url= "https://www.twitch.tv/bookguk_gom"))
+        await asyncio.sleep(5)
 
-@bot.command()
 @commands.is_owner() #소유자만이 작동 가능
+@bot.command()
 async def fo(ctx):
     await ctx.send(':hand_splayed:')
     await ctx.bot.logout() #종료 명령어
@@ -66,5 +71,5 @@ async def 도움(ctx):
 
         await ctx.send(embed=embedVar) #적은 도움말을 보내기
 
-
+    
 bot.run('<토큰>') # 토큰을 입력해주세요!
