@@ -70,6 +70,7 @@ async def 도움(ctx):
         embedVar.add_field(name="gt.play_marigold", value="Margold - M2U 를 고음질로 재생합니다.", inline=False)
         embedVar.add_field(name="gt.play_magnolia", value="Magnolia - M2U 를 고음질로 재생합니다.", inline=False)
         embedVar.add_field(name="gt.leave", value="음성 채팅으로 부터 연결을 끊습니다.", inline=False)
+        embedVar.add_field(name="gt.시세", value="(NEW) 비트코인 시세를 확인합니다.", inline=False)
         embedVar.set_thumbnail(url="https://i.ibb.co/dW3kb01/dd1.png") #embed 썸네일을 지정합니다
         await ctx.send(embed=embedVar) #embed를 출력합니다
 @bot.command() #시세
