@@ -1,5 +1,6 @@
 import asyncio
 import discord
+import psutil
 from discord.ext import commands
 import pybithumb
 
@@ -11,16 +12,10 @@ async def on_ready():
     print(f'{bot.user.name} 에 성공적으로 로그인했습니다') #봇이 성공적으로 작동하고 있다는 메시지를 콘솔에 출력
     print(f'봇의 ID는 다음과 같아요 "{bot.user.id}"')
     while(True):
-        await bot.change_presence(activity = discord.Streaming(name = "gt.도움", url= "https://www.twitch.tv/bookguk_gom")) #디스코드 rich presenc
+        await bot.change_presence(activity = discord.Streaming(name = "gt.도움", url= "https://www.twitch.tv/bookguk_gom")) #디스코드 rich presence
         await asyncio.sleep(5)
         await bot.change_presence(activity = discord.Streaming(name = "보연이는 왈라비임", url= "https://www.twitch.tv/bookguk_gom"))
         await asyncio.sleep(5)
-
-@commands.is_owner() #소유자만이 작동 가능
-@bot.command()
-async def fo(ctx):
-    await ctx.send(':hand_splayed:')
-    await ctx.bot.logout() #종료
 @bot.command()
 async def ping(ctx):
     await ctx.send(f'Pong! {round(bot.latency * 1000)}ms') #핑 계산
@@ -32,6 +27,12 @@ async def lord(ctx): #로오오드 타찬카...
 @bot.command()
 async def leave(ctx): #통화방에서 나가기
     await ctx.voice_client.disconnect()
+@bot.command()
+async def stop(ctx):  #와! 됐당!
+    guild = ctx.guild
+    voice_client: discord.VoiceClient = discord.utils.get(bot.voice_clients, guild=guild)
+    voice_client.stop()
+    await ctx.send('재생하고 있던 음악을 멈췄어요.')
 @bot.command()
 async def join(ctx): #통화방 입장
     channel = ctx.author.voice.channel
@@ -58,9 +59,6 @@ async def play_magnolia(ctx):
     audio_source = discord.FFmpegPCMAudio('magnolia.mp3')
     if not voice_client.is_playing():
         voice_client.play(audio_source, after=None)
-#@bot.command() #연구 중
-#async def debug(ctx):
-#    ctx.send(psutil.cpu_percent())
 @bot.command() #도움말
 async def 도움(ctx):
         embedVar = discord.Embed(title="도움말", description="명령어는 아래에서 확인하세요!", color=0x00ff00) #embed 초기 설정을 합니다
@@ -71,6 +69,7 @@ async def 도움(ctx):
         embedVar.add_field(name="gt.play_magnolia", value="Magnolia - M2U 를 고음질로 재생합니다.", inline=False)
         embedVar.add_field(name="gt.leave", value="음성 채팅으로 부터 연결을 끊습니다.", inline=False)
         embedVar.add_field(name="gt.시세", value="(NEW) 비트코인 시세를 확인합니다.", inline=False)
+        embedVar.add_field(name="gt.정보", value="(NEW) 현재 돌아가고 있는 서버의 상태를 확인합니다.", inline=False)
         embedVar.set_thumbnail(url="https://i.ibb.co/dW3kb01/dd1.png") #embed 썸네일을 지정합니다
         await ctx.send(embed=embedVar) #embed를 출력합니다
 @bot.command() #시세
@@ -85,5 +84,30 @@ async def 시세(ctx):
 
     embedVar.set_thumbnail(url="https://i.ibb.co/dW3kb01/dd1.png") #embed 썸네일을 지정합니다
     await ctx.send(embed=embedVar) #embed를 출력합니다
+@bot.command()
+async def 정보(ctx):
+    memory = psutil.virtual_memory()
+    avail = memory.available
+    embedVar = discord.Embed(title="정보", description="시스템 정보를 표시합니다.", color=0x90EE90) 
+    embedVar.add_field(name="CPU 사용량 :", value=f"{psutil.cpu_percent()}%", inline=False) #embed에 각각 변수를 넣습니다
+    embedVar.add_field(name="메모리 사용량 :", value=f"{round(avail/1024**3, 1)} GB 사용 중", inline=False) #embed에 각각 변수를 넣습니다
+    embedVar.set_thumbnail(url="https://i.ibb.co/dW3kb01/dd1.png")
+    await ctx.send(embed=embedVar) #embed를 출력합니다
 
+@commands.is_owner() #소유자만이 작동 가능
+@bot.command()
+async def fo(ctx):
+    guild = ctx.guild
+    voice_client: discord.VoiceClient = discord.utils.get(bot.voice_clients, guild=guild)
+    if voice_client.is_playing(): #(임시) 봇이 노래를 재생하고 있다면 원래 있던 음성채널에서 나간뒤 로그아웃
+        await ctx.voice_client.disconnect()
+        await ctx.send(':hand_splayed:')
+        await ctx.bot.logout() #종료
+    else :
+        await ctx.send(':hand_splayed:')
+        await ctx.bot.logout() #종료
 bot.run('<token>') # 토큰을 입력해주세요!
+
+
+
+
