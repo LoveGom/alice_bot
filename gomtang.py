@@ -1,8 +1,10 @@
 import asyncio
 import discord
 import psutil
-from discord.ext import commands
 import pybithumb
+from discord.ext import commands
+from datetime import datetime
+
 
 
 bot = commands.Bot(command_prefix='gt.')
@@ -11,10 +13,11 @@ bot = commands.Bot(command_prefix='gt.')
 async def on_ready():
     print(f'{bot.user.name} 에 성공적으로 로그인했습니다') #봇이 성공적으로 작동하고 있다는 메시지를 콘솔에 출력
     print(f'봇의 ID는 다음과 같아요 "{bot.user.id}"')
-    while(True):
+    date = datetime.now()
+    while(True):        
         await bot.change_presence(activity = discord.Streaming(name = "gt.도움", url= "https://www.twitch.tv/bookguk_gom")) #디스코드 rich presence
         await asyncio.sleep(5)
-        await bot.change_presence(activity = discord.Streaming(name = "보연이는 왈라비임", url= "https://www.twitch.tv/bookguk_gom"))
+        await bot.change_presence(activity = discord.Streaming(name = f"ver. BATA {date.year}. {date.month}. {date.day}. ", url= "https://www.twitch.tv/bookguk_gom"))
         await asyncio.sleep(5)
 @bot.command()
 async def ping(ctx):
@@ -52,6 +55,8 @@ async def play_marigold(ctx):
     audio_source = discord.FFmpegPCMAudio('marigold.mp3')
     if not voice_client.is_playing():
         voice_client.play(audio_source, after=None)
+        channel = ctx.author.voice.channel
+        await ctx.send(f':white_check_mark: "**{channel}**"에서 "**Marigold**"를 재생할께요!')
 @bot.command() #magnolia.mp3 재생
 async def play_magnolia(ctx):
     guild = ctx.guild
@@ -87,23 +92,19 @@ async def 시세(ctx):
 @bot.command()
 async def 정보(ctx):
     memory = psutil.virtual_memory()
-    avail = memory.available
+    avail = round(memory.available/1024**3, 1) #사용 가능한 메모리 계산
+    percent = memory.percent #메모리 퍼센트 계산
+    total = round(memory.total/1024**3, 1) # 총 메모리를 계산 후 소수점 1자리 까지만 반올림
+    distotal = round(memory.total/1024**3) # "" 반올림 (소수점 X)
     embedVar = discord.Embed(title="정보", description="시스템 정보를 표시합니다.", color=0x90EE90) 
     embedVar.add_field(name="CPU 사용량 :", value=f"{psutil.cpu_percent()}%", inline=False) #embed에 각각 변수를 넣습니다
-    embedVar.add_field(name="메모리 사용량 :", value=f"{round(avail/1024**3, 1)} GB 사용 중", inline=False) #embed에 각각 변수를 넣습니다
+    embedVar.add_field(name="메모리 사용량 :", value=f"{distotal}GB 중 {round(total - avail, 1)}GB 사용 중 ({avail}GB 사용 가능 ({percent}%))", inline=False)
     embedVar.set_thumbnail(url="https://i.ibb.co/dW3kb01/dd1.png")
     await ctx.send(embed=embedVar) #embed를 출력합니다
 
 @commands.is_owner() #소유자만이 작동 가능
 @bot.command()
 async def fo(ctx):
-    guild = ctx.guild
-    voice_client: discord.VoiceClient = discord.utils.get(bot.voice_clients, guild=guild)
-    if voice_client.is_playing(): #(임시) 봇이 노래를 재생하고 있다면 원래 있던 음성채널에서 나간뒤 로그아웃
-        await ctx.voice_client.disconnect()
-        await ctx.send(':hand_splayed:')
-        await ctx.bot.logout() #종료
-    else :
         await ctx.send(':hand_splayed:')
         await ctx.bot.logout() #종료
 bot.run('<token>') # 토큰을 입력해주세요!
