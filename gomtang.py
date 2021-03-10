@@ -2,6 +2,9 @@ import asyncio
 import discord
 import psutil
 import pybithumb
+import requests
+import re
+from bs4 import BeautifulSoup
 from discord.ext import commands
 from datetime import datetime
 from gpiozero import CPUTemperature
@@ -22,12 +25,7 @@ async def on_ready():
         await asyncio.sleep(5)
 @bot.command()
 async def ping(ctx):
-    await ctx.send(f'Pong! {round(bot.latency * 1000)}ms') #핑 계산
-@bot.command()
-async def lord(ctx): #로오오드 타찬카...
-    await ctx.send('https://r6skin.com/wp-content/uploads/2019/02/r6s-bundle_tachankamedieval_960x540_323504.jpg')
-    await ctx.send('https://media.altchar.com/prod/images/940_530/gm-fe37e26f-f3bd-42b8-9be7-2b2c3ee7e692-lordtachankarework.jpeg')
-    await ctx.send('https://cdn.player.one/sites/player.one/files/styles/lg/public/2020/03/13/rainbowsixsiegetachanka-vg247.jpg') 
+    await ctx.send(f'Pong! {round(bot.latency * 1000)}ms') #봇 레이턴시 x 1000 -> 반올림 -> 출력
 @bot.command()
 async def leave(ctx): #통화방에서 나가기
     await ctx.voice_client.disconnect()
@@ -93,6 +91,26 @@ async def 생성일(ctx):
     user =  bot.get_user(userId)
     await ctx.send(user.created_at)
 
+@bot.command()
+async def test(ctx):
+    no_num = re.compile('[^0-9]')
+    res = requests.get ('https://search.naver.com/search.naver?sm=tab_hty.top&where=nexearch&query=%EA%B5%B0%EC%82%B0%EC%A0%9C%EC%9D%BC%EA%B3%A0%EB%93%B1%ED%95%99%EA%B5%90&oquery=%EA%B5%B0%EC%82%B0%EC%A0%9C%EC%9D%BC%EA%B3%A0%EB%93%B1%ED%95%99%EA%B5%A3&tqi=hZBadlp0J1ZssK9lMxNssssssrw-058069')
+    source = res.text
+    soup = BeautifulSoup(source,'html.parser')
+    a = soup.select('.menu_info')
+    menu = []
+    dt = datetime.now()
+    today = " "+str(dt.month)+"월 "+str(dt.day)+"일 "
+    #today2 = today+" 급식"
+    #await ctx.send(f'{today2}')
+    for menu in a:
+        menu_today = menu.text[:menu.text.find('[')]
+        if menu_today == today :
+            replace1 = menu.text
+            replace2 = replace1.replace("(정)","")
+            replace3 = replace2.replace(".","")
+            replace4 = "".join(no_num.findall(replace3))
+            await ctx.send(replace4)
 @commands.is_owner()
 @bot.command()
 async def 따라해(ctx, arg):
