@@ -49,22 +49,6 @@ async def play(ctx): #mp3.mp3 재생
     audio_source = discord.FFmpegPCMAudio('mp3.mp3')
     if not voice_client.is_playing():
         voice_client.play(audio_source, after=None)
-@bot.command() #marigold.mp3 재생
-async def play_marigold(ctx):
-    guild = ctx.guild
-    voice_client: discord.VoiceClient = discord.utils.get(bot.voice_clients, guild=guild)
-    audio_source = discord.FFmpegPCMAudio('marigold.mp3')
-    if not voice_client.is_playing():
-        voice_client.play(audio_source, after=None)
-        channel = ctx.author.voice.channel
-        await ctx.send(f':white_check_mark: "**{channel}**"에서 "**Marigold**"를 재생할께요!')
-@bot.command() #magnolia.mp3 재생
-async def play_magnolia(ctx):
-    guild = ctx.guild
-    voice_client: discord.VoiceClient = discord.utils.get(bot.voice_clients, guild=guild)
-    audio_source = discord.FFmpegPCMAudio('magnolia.mp3')
-    if not voice_client.is_playing():
-        voice_client.play(audio_source, after=None)
 @bot.command() #도움말
 async def 도움(ctx):
         embedVar = discord.Embed(title="도움말", description="명령어는 아래에서 확인하세요!", color=0x00ff00) #embed 초기 설정을 합니다
@@ -104,9 +88,19 @@ async def 정보(ctx):
     embedVar.set_thumbnail(url="https://i.ibb.co/dW3kb01/dd1.png")
     await ctx.send(embed=embedVar) #embed를 출력합니다
 
+@bot.command()
+async def 생성일(ctx):
+    user =  bot.get_user(userId)
+    await ctx.send(user.created_at)
+
+@commands.is_owner()
+@bot.command()
+async def 따라해(ctx, arg):
+    await ctx.send(arg)
+
 @commands.is_owner() #소유자만이 작동 가능
 @bot.command()
-async def fo(ctx):
+async def fo(ctx): #fuck off
         await ctx.send(':hand_splayed:')
         await ctx.bot.logout() #종료
 bot.run('<token>') # 토큰을 입력해주세요!
