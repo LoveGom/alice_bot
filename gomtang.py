@@ -9,7 +9,7 @@ from discord.ext import commands
 from datetime import datetime
 from gpiozero import CPUTemperature
 
-
+#커밋 전 토큰 유무 확인
 
 bot = commands.Bot(command_prefix='gt.')
 
@@ -119,7 +119,7 @@ async def 따라해(ctx, arg):
 async def fo(ctx): #fuck off
         await ctx.send(':hand_splayed:')
         await ctx.bot.logout() #종료
-bot.run('ODA0NjEwNzczMjYyNjYzNzMw.YBO2LQ.e35hsawzr0_1qrRtBFE56JmVeHo') # 토큰을 입력해주세요!
+bot.run('<token>') # 토큰을 입력해주세요!
 
 
 
