@@ -52,12 +52,10 @@ async def 도움(ctx):
         embedVar = discord.Embed(title="도움말", description="명령어는 아래에서 확인하세요!", color=0x00ff00) #embed 초기 설정을 합니다
         embedVar.add_field(name="gt.ping", value="네트워크 지연시간을 표기합니다.", inline=False)
         embedVar.add_field(name="gt.join", value="음성 채팅으로 연결합니다.", inline=False)
-        embedVar.add_field(name="gt.play", value="소비에트 연방 찬가를 고음질로 재생합니다.", inline=False)
-        embedVar.add_field(name="gt.play_marigold", value="Margold - M2U 를 고음질로 재생합니다.", inline=False)
-        embedVar.add_field(name="gt.play_magnolia", value="Magnolia - M2U 를 고음질로 재생합니다.", inline=False)
         embedVar.add_field(name="gt.leave", value="음성 채팅으로 부터 연결을 끊습니다.", inline=False)
-        embedVar.add_field(name="gt.시세", value="(NEW) 비트코인 시세를 확인합니다.", inline=False)
-        embedVar.add_field(name="gt.정보", value="(NEW) 현재 돌아가고 있는 서버의 상태를 확인합니다.", inline=False)
+        embedVar.add_field(name="gt.시세", value="비트코인 시세를 확인합니다.", inline=False)
+        embedVar.add_field(name="gt.정보", value="현재 돌아가고 있는 서버의 상태를 확인합니다.", inline=False)
+        embedVar.add_field(name="gt.급식", value="군산 제일고등학교의 급식을 확인합니다.", inline=False)
         embedVar.set_thumbnail(url="https://i.ibb.co/dW3kb01/dd1.png") #embed 썸네일을 지정합니다
         await ctx.send(embed=embedVar) #embed를 출력합니다
 @bot.command() #시세
@@ -92,7 +90,7 @@ async def 생성일(ctx):
     await ctx.send(user.created_at)
 
 @bot.command()
-async def test(ctx):
+async def 급식(ctx):
     no_num = re.compile('[^0-9]')
     res = requests.get ('https://search.naver.com/search.naver?sm=tab_hty.top&where=nexearch&query=%EA%B5%B0%EC%82%B0%EC%A0%9C%EC%9D%BC%EA%B3%A0%EB%93%B1%ED%95%99%EA%B5%90&oquery=%EA%B5%B0%EC%82%B0%EC%A0%9C%EC%9D%BC%EA%B3%A0%EB%93%B1%ED%95%99%EA%B5%A3&tqi=hZBadlp0J1ZssK9lMxNssssssrw-058069')
     source = res.text
@@ -121,7 +119,7 @@ async def 따라해(ctx, arg):
 async def fo(ctx): #fuck off
         await ctx.send(':hand_splayed:')
         await ctx.bot.logout() #종료
-bot.run('<token>') # 토큰을 입력해주세요!
+bot.run('ODA0NjEwNzczMjYyNjYzNzMw.YBO2LQ.e35hsawzr0_1qrRtBFE56JmVeHo') # 토큰을 입력해주세요!
 
 
 
