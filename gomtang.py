@@ -84,10 +84,10 @@ async def 정보(ctx):
     embedVar.set_thumbnail(url="https://i.ibb.co/dW3kb01/dd1.png")
     await ctx.send(embed=embedVar) #embed를 출력합니다
 
-@bot.command()
-async def 생성일(ctx):
-    user =  bot.get_user(userId)
-    await ctx.send(user.created_at)
+#@bot.command()
+#async def 생성일(ctx):
+#    user =  bot.get_user(userId)
+#    await ctx.send(user.created_at)
 
 @bot.command()
 async def 급식(ctx):
