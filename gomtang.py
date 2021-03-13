@@ -4,9 +4,9 @@ import psutil
 import pybithumb
 import requests
 import re
+from datetime import datetime
 from bs4 import BeautifulSoup
 from discord.ext import commands
-from datetime import datetime
 from gpiozero import CPUTemperature
 
 #커밋 전 토큰 유무 확인
@@ -84,11 +84,6 @@ async def 정보(ctx):
     embedVar.set_thumbnail(url="https://i.ibb.co/dW3kb01/dd1.png")
     await ctx.send(embed=embedVar) #embed를 출력합니다
 
-#@bot.command()
-#async def 생성일(ctx):
-#    user =  bot.get_user(userId)
-#    await ctx.send(user.created_at)
-
 @bot.command()
 async def 급식(ctx):
     no_num = re.compile('[^0-9]')
@@ -99,8 +94,6 @@ async def 급식(ctx):
     menu = []
     dt = datetime.now()
     today = " "+str(dt.month)+"월 "+str(dt.day)+"일 "
-    #today2 = today+" 급식"
-    #await ctx.send(f'{today2}')
     for menu in a:
         menu_today = menu.text[:menu.text.find('[')]
         if menu_today == today :
@@ -119,7 +112,7 @@ async def 따라해(ctx, arg):
 async def fo(ctx): #fuck off
         await ctx.send(':hand_splayed:')
         await ctx.bot.logout() #종료
-bot.run('<token>') # 토큰을 입력해주세요!
+bot.run('ODA0NjEwNzczMjYyNjYzNzMw.YBO2LQ.a1LGPk8Xdvlpi5SWG4jA8SzocgU') # 토큰을 입력해주세요!
 
 
 
