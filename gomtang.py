@@ -4,10 +4,18 @@ import psutil
 import pybithumb
 import requests
 import re
+<<<<<<< HEAD
 from datetime import datetime
 from bs4 import BeautifulSoup
 from discord.ext import commands
 from gpiozero import CPUTemperature
+=======
+from gpiozero import CPUTemperature
+from bs4 import BeautifulSoup
+from discord.ext import commands
+from datetime import datetime
+
+>>>>>>> d8d9a5d9017f91cb4126d4b44666cde95cf096e0
 
 #커밋 전 토큰 유무 확인
 
@@ -112,8 +120,4 @@ async def 따라해(ctx, arg):
 async def fo(ctx): #fuck off
         await ctx.send(':hand_splayed:')
         await ctx.bot.logout() #종료
-bot.run('ODA0NjEwNzczMjYyNjYzNzMw.YBO2LQ.a1LGPk8Xdvlpi5SWG4jA8SzocgU') # 토큰을 입력해주세요!
-
-
-
-
+bot.run('<Token>') # 토큰을 입력해주세요!
