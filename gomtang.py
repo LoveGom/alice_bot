@@ -111,4 +111,4 @@ async def 따라해(ctx, arg):
 async def fo(ctx): #fuck off
         await ctx.send(':hand_splayed:')
         await ctx.bot.logout() #종료
-bot.run('ODA0NjEwNzczMjYyNjYzNzMw.YBO2LQ.__Jp7NDJaGFg1xoILd5Q-3wHd3g') # 토큰을 입력해주세요!
+bot.run('<token>') # 토큰을 입력해주세요!
