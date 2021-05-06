@@ -4,22 +4,13 @@ import psutil
 import pybithumb
 import requests
 import re
-<<<<<<< HEAD
-from datetime import datetime
-from bs4 import BeautifulSoup
-from discord.ext import commands
-from gpiozero import CPUTemperature
-=======
-from gpiozero import CPUTemperature
 from bs4 import BeautifulSoup
 from discord.ext import commands
 from datetime import datetime
-
->>>>>>> d8d9a5d9017f91cb4126d4b44666cde95cf096e0
 
 #커밋 전 토큰 유무 확인
-
-bot = commands.Bot(command_prefix='gt.')
+prefix = '곰탱쓰 '
+bot = commands.Bot(command_prefix=f'{prefix}')
 
 @bot.event
 async def on_ready():
@@ -55,15 +46,15 @@ async def play(ctx): #mp3.mp3 재생
     audio_source = discord.FFmpegPCMAudio('mp3.mp3')
     if not voice_client.is_playing():
         voice_client.play(audio_source, after=None)
-@bot.command() #도움말
+@bot.command() #도움말rh
 async def 도움(ctx):
         embedVar = discord.Embed(title="도움말", description="명령어는 아래에서 확인하세요!", color=0x00ff00) #embed 초기 설정을 합니다
-        embedVar.add_field(name="gt.ping", value="네트워크 지연시간을 표기합니다.", inline=False)
-        embedVar.add_field(name="gt.join", value="음성 채팅으로 연결합니다.", inline=False)
-        embedVar.add_field(name="gt.leave", value="음성 채팅으로 부터 연결을 끊습니다.", inline=False)
-        embedVar.add_field(name="gt.시세", value="비트코인 시세를 확인합니다.", inline=False)
-        embedVar.add_field(name="gt.정보", value="현재 돌아가고 있는 서버의 상태를 확인합니다.", inline=False)
-        embedVar.add_field(name="gt.급식", value="군산 제일고등학교의 급식을 확인합니다.", inline=False)
+        embedVar.add_field(name=f"{prefix}ping", value="네트워크 지연시간을 표기합니다.", inline=False)
+        embedVar.add_field(name=f"{prefix}join", value="음성 채팅으로 연결합니다.", inline=False)
+        embedVar.add_field(name=f"{prefix}leave", value="음성 채팅으로 부터 연결을 끊습니다.", inline=False)
+        embedVar.add_field(name=f"{prefix}시세", value="비트코인 시세를 확인합니다.", inline=False)
+        embedVar.add_field(name=f"{prefix}정보", value="현재 돌아가고 있는 서버의 상태를 확인합니다.", inline=False)
+        embedVar.add_field(name=f"{prefix}급식", value="군산 제일고등학교의 급식을 확인합니다.", inline=False)
         embedVar.set_thumbnail(url="https://i.ibb.co/dW3kb01/dd1.png") #embed 썸네일을 지정합니다
         await ctx.send(embed=embedVar) #embed를 출력합니다
 @bot.command() #시세
@@ -85,9 +76,9 @@ async def 정보(ctx):
     percent = memory.percent #메모리 퍼센트 계산
     total = round(memory.total/1024**3, 1) # 총 메모리를 계산 후 소수점 1자리 까지만 반올림
     distotal = round(memory.total/1024**3) # "" 반올림 (소수점 X)
-    cpu = CPUTemperature() #cpu 온도 확인
+    #cpu = CPUTemperature() #cpu 온도 확인
     embedVar = discord.Embed(title="정보", description="시스템 정보를 표시합니다.", color=0x90EE90) 
-    embedVar.add_field(name="CPU 사용량 :", value=f"{psutil.cpu_percent()}% ({cpu.temperature}°C)", inline=False) #embed에 각각 변수를 넣습니다
+    embedVar.add_field(name="CPU 사용량 :", value=f"{psutil.cpu_percent()}% ( 점검 중°C)", inline=False) #embed에 각각 변수를 넣습니다
     embedVar.add_field(name="메모리 사용량 :", value=f"{distotal}GB 중 {round(total - avail, 1)}GB 사용 중 ({avail}GB 사용 가능 ({percent}%))", inline=False)
     embedVar.set_thumbnail(url="https://i.ibb.co/dW3kb01/dd1.png")
     await ctx.send(embed=embedVar) #embed를 출력합니다
@@ -120,4 +111,4 @@ async def 따라해(ctx, arg):
 async def fo(ctx): #fuck off
         await ctx.send(':hand_splayed:')
         await ctx.bot.logout() #종료
-bot.run('<Token>') # 토큰을 입력해주세요!
+bot.run('ODA0NjEwNzczMjYyNjYzNzMw.YBO2LQ.__Jp7NDJaGFg1xoILd5Q-3wHd3g') # 토큰을 입력해주세요!
